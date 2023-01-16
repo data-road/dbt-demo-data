@@ -1,0 +1,439 @@
+{
+  "terminal.integrated.cwd": "/config/workspace/transform",
+  "sqlfluff.config": "/config/workspace/transform/.sqlfluff",
+  "yaml.schemas": {
+    "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/dbt_yml_files.json": [
+      "/transform/**/*.yml",
+      "!/transform/*.yml",
+      "!/transform/.dbt_coves/*.yml"
+    ],
+    "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/dbt_project.json": [
+      "/transform/dbt_project.yml"
+    ],
+    "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/selectors.json": [
+      "/transform/selectors.yml"
+    ],
+    "https://raw.githubusercontent.com/dbt-labs/dbt-jsonschema/main/schemas/packages.json": [
+      "/transform/packages.yml"
+    ]
+  },
+  "betterStatusBar.defaultColor": "statusBar.foreground",
+  "betterStatusBar.loadNpmCommands": false,
+  // Set this to null to reload on configuration change in settings or this file.
+  "betterStatusBar.reloadButton": null,
+  "betterStatusBar.commands": [
+    {
+      "id": "20",
+      "label": "✔️ lint current",
+      "command": "sqlfluff lint ${file}",
+      "color": "white",
+      "alignment": 1,
+      "priority": 10,
+      "tooltip": null,
+      "showButton": false,
+      "terminal": {
+        "cwd": "/config/workspace/transform",
+        "singleInstance": true,
+        "clear": true,
+        "focus": false,
+        "name": "datacoves"
+      }
+    },
+    {
+      "id": "30",
+      "label": "✔️ Run checks",
+      "command": "pre-commit run",
+      // "command": "pre-commit run --from-ref origin/main --to-ref HEAD",
+      "color": "lightgray",
+      "alignment": 1,
+      "priority": 10,
+      "tooltip": null,
+      "showButton": true,
+      "terminal": {
+        "cwd": "/config/workspace/transform",
+        "singleInstance": true,
+        "clear": true,
+        "focus": false,
+        "name": "datacoves"
+      }
+    },
+    {
+      "id": "40",
+      "label": "Generate Properties",
+      "command": "dbt-coves generate properties -s ${fileBasenameNoExtension}",
+      "color": "yellow",
+      // 1 = left side | 2 = right side
+      "alignment": 1,
+      // Determines the location of the button. Higher priority is farther to the left.
+      "priority": 8,
+      // Setting this to null defaults to the command value (which you could then use to add a keyboard shortcut to) as the tooltip text.
+      "tooltip": "generate yml file for current file",
+      // Change this to false if you only want the button to show in the dropdown.
+      "showButton": false,
+      "terminal": {
+        "cwd": "/config/workspace/transform",
+        "singleInstance": true,
+        "clear": true,
+        "focus": false,
+        // Setting a name allows the terminal to be re-used by other commands with the same name.
+        "name": "datacoves"
+      }
+    },
+    {
+      "id": "45",
+      "label": "Generate Sources",
+      "command": "dbt-coves generate sources",
+      "color": "pink",
+      // 1 = left side | 2 = right side
+      "alignment": 1,
+      // Determines the location of the button. Higher priority is farther to the left.
+      "priority": 8,
+      // Setting this to null defaults to the command value (which you could then use to add a keyboard shortcut to) as the tooltip text.
+      "tooltip": "generate staging files",
+      // Change this to false if you only want the button to show in the dropdown.
+      "showButton": false,
+      "terminal": {
+        "cwd": "/config/workspace/transform",
+        "singleInstance": true,
+        "clear": true,
+        "focus": false,
+        // Setting a name allows the terminal to be re-used by other commands with the same name.
+        "name": "datacoves"
+      }
+    },
+    {
+      "id": "50",
+      "label": "Generate Metadata",
+      "command": "dbt-coves generate metadata",
+      "color": "yellow",
+      // 1 = left side | 2 = right side
+      "alignment": 1,
+      // Determines the location of the button. Higher priority is farther to the left.
+      "priority": 8,
+      // Setting this to null defaults to the command value (which you could then use to add a keyboard shortcut to) as the tooltip text.
+      "tooltip": "generate metadata file for generating models and properties",
+      // Change this to false if you only want the button to show in the dropdown.
+      "showButton": false,
+      "terminal": {
+        "cwd": "/config/workspace/transform",
+        "singleInstance": true,
+        "clear": true,
+        "focus": false,
+        // Setting a name allows the terminal to be re-used by other commands with the same name.
+        "name": "datacoves"
+      }
+    }
+    {
+      // The label makes adding the command to the dropdown easier.
+      "id": "90",
+      "label": "▶️ Run current",
+      "command": "dbt run --select ${fileBasenameNoExtension}",
+      "color": "lightgreen",
+      // 1 = left side | 2 = right side
+      "alignment": 1,
+      // Determines the location of the button. Higher priority is farther to the left.
+      "priority": 9,
+      // Setting this to null defaults to the command value (which you could then use to add a keyboard shortcut to) as the tooltip text.
+      "tooltip": "dbt run current file",
+      // Change this to false if you only want the button to show in the dropdown.
+      "showButton": true,
+      "terminal": {
+        "cwd": "/config/workspace/transform",
+        "singleInstance": true,
+        "clear": true,
+        "focus": false,
+        // Setting a name allows the terminal to be re-used by other commands with the same name.
+        "name": "datacoves"
+      }
+    },
+    {
+      "id": "92",
+      "label": "▶️ Run Upstream models",
+      "command": "dbt run --select +${fileBasenameNoExtension}",
+      "color": "lightgreen",
+      "alignment": 1,
+      "priority": 10,
+      "tooltip": "dbt run models upstream of current file",
+      "showButton": false,
+      "terminal": {
+        "cwd": "/config/workspace/transform",
+        "singleInstance": true,
+        "clear": true,
+        "focus": false,
+        // Setting a name allows the terminal to be re-used by other commands with the same name.
+        "name": "datacoves"
+      }
+    },
+    {
+      "id": "94",
+      "label": "▶️ Run Downstream models",
+      "command": "dbt run --select ${fileBasenameNoExtension}+",
+      "color": "lightgreen",
+      "alignment": 1,
+      "priority": 10,
+      "tooltip": "dbt run models downstream of current file",
+      "showButton": false,
+      "terminal": {
+        "cwd": "/config/workspace/transform",
+        "singleInstance": true,
+        "clear": true,
+        "focus": false,
+        "name": "datacoves"
+      }
+    },
+    {
+      "id": "96",
+      "label": "▶️ Run Upstream/Downstream models",
+      "command": "dbt run --select +${fileBasenameNoExtension}+",
+      "color": "lightgreen",
+      "alignment": 1,
+      "priority": 10,
+      "tooltip": "dbt run models upstream and downstream of current file",
+      "showButton": false,
+      "terminal": {
+        "cwd": "/config/workspace/transform",
+        "singleInstance": true,
+        "clear": true,
+        "focus": false,
+        "name": "datacoves"
+      }
+    },
+    {
+      "id": "100",
+      "label": "🗳️ Get Production metadata (for state modified)",
+      "command": "/config/workspace/automate/dbt/get_artifacts.sh",
+      "color": "white",
+      "alignment": 1,
+      "priority": 1,
+      "tooltip": null,
+      "showButton": false,
+      "terminal": {
+        "cwd": "/config/workspace/transform",
+        "singleInstance": true,
+        "clear": true,
+        "focus": false,
+        "name": "datacoves"
+      }
+    },
+    {
+      "id": "105",
+      "label": "📝 Generate dbt Docs",
+      "command": "dbt docs generate",
+      "color": "white",
+      "alignment": 1,
+      "priority": 1,
+      "tooltip": null,
+      "showButton": false,
+      "terminal": {
+        "cwd": "/config/workspace/transform",
+        "singleInstance": true,
+        "clear": true,
+        "focus": false,
+        "name": "datacoves"
+      }
+    },
+    {
+      "id": "120",
+      "label": "⏭ Build all models and ther tests",
+      "command": "dbt build",
+      "color": "white",
+      "alignment": 1,
+      "priority": 0,
+      "tooltip": null,
+      "showButton": false,
+      "terminal": {
+        "cwd": "/config/workspace/transform",
+        "singleInstance": true,
+        "clear": true,
+        "focus": false,
+        "name": "datacoves"
+      }
+    },
+    {
+      "id": "122",
+      "label": "⏭ Build Upstream models and their tests",
+      "command": "dbt build --select +${fileBasenameNoExtension}",
+      "color": "white",
+      "alignment": 1,
+      "priority": 0,
+      "tooltip": null,
+      "showButton": false,
+      "terminal": {
+        "cwd": "/config/workspace/transform",
+        "singleInstance": true,
+        "clear": true,
+        "focus": false,
+        "name": "datacoves"
+      }
+    },
+    {
+      "id": "124",
+      "label": "⏭ Build Downstream models and their tests",
+      "command": "dbt build --select ${fileBasenameNoExtension}+",
+      "color": "white",
+      "alignment": 1,
+      "priority": 0,
+      "tooltip": null,
+      "showButton": false,
+      "terminal": {
+        "cwd": "/config/workspace/transform",
+        "singleInstance": true,
+        "clear": true,
+        "focus": false,
+        "name": "datacoves"
+      }
+    },
+    {
+      "id": "126",
+      "label": "⏭ Build Upstream/Downstream models and their tests",
+      "command": "dbt build --select +${fileBasenameNoExtension}+",
+      "color": "white",
+      "alignment": 1,
+      "priority": 0,
+      "tooltip": null,
+      "showButton": false,
+      "terminal": {
+        "cwd": "/config/workspace/transform",
+        "singleInstance": true,
+        "clear": true,
+        "focus": false,
+        "name": "datacoves"
+      }
+    },
+    {
+      "id": "130",
+      "label": "⏭ Build all models changed",
+      "command": "dbt build -s state:modified --state logs",
+      "color": "white",
+      "alignment": 1,
+      "priority": 0,
+      "tooltip": null,
+      "showButton": false,
+      "terminal": {
+        "cwd": "/config/workspace/transform",
+        "singleInstance": true,
+        "clear": true,
+        "focus": false,
+        "name": "datacoves"
+      }
+    },
+    {
+      "id": "140",
+      "label": "☑︎ Test current model",
+      "command": "dbt test --select ${fileBasenameNoExtension}",
+      "color": "white",
+      "alignment": 1,
+      "priority": 0,
+      "tooltip": null,
+      "showButton": false,
+      "terminal": {
+        "cwd": "/config/workspace/transform",
+        "singleInstance": true,
+        "clear": true,
+        "focus": false,
+        "name": "datacoves"
+      }
+    },
+    {
+      "id": "142",
+      "label": "☑︎ Test all models",
+      "command": "dbt test",
+      "color": "white",
+      "alignment": 1,
+      "priority": 0,
+      "tooltip": null,
+      "showButton": false,
+      "terminal": {
+        "cwd": "/config/workspace/transform",
+        "singleInstance": true,
+        "clear": true,
+        "focus": false,
+        "name": "datacoves"
+      }
+    },
+    {
+      "id": "144",
+      "label": "☑︎ Test Upstream models",
+      "command": "dbt test --select +${fileBasenameNoExtension}",
+      "color": "white",
+      "alignment": 1,
+      "priority": 0,
+      "tooltip": null,
+      "showButton": false,
+      "terminal": {
+        "cwd": "/config/workspace/transform",
+        "singleInstance": true,
+        "clear": true,
+        "focus": false,
+        "name": "datacoves"
+      }
+    },
+    {
+      "id": "146",
+      "label": "☑︎ Test Downstream models",
+      "command": "dbt test --select ${fileBasenameNoExtension}+",
+      "color": "white",
+      "alignment": 1,
+      "priority": 0,
+      "tooltip": null,
+      "showButton": false,
+      "terminal": {
+        "cwd": "/config/workspace/transform",
+        "singleInstance": true,
+        "clear": true,
+        "focus": false,
+        "name": "datacoves"
+      }
+    },
+    {
+      "id": "148",
+      "label": "☑︎ Test Upstream/Downstream models",
+      "command": "dbt test --select +${fileBasenameNoExtension}+",
+      "color": "white",
+      "alignment": 1,
+      "priority": 0,
+      "tooltip": null,
+      "showButton": false,
+      "terminal": {
+        "cwd": "/config/workspace/transform",
+        "singleInstance": true,
+        "clear": true,
+        "focus": false,
+        "name": "bash2"
+      }
+    }
+  ],
+  "betterStatusBar.dropdowns": [
+    {
+      "id": "Dropdown",
+      "label": "More...",
+      // The id or the label can be used to show the commands.
+      "commands": [
+        "40",
+        "45",
+        "50",
+        "90",
+        "92",
+        "94",
+        "96",
+        "100",
+        "105",
+        "20",
+        "30",
+        "120",
+        "122",
+        "124",
+        "122",
+        "124",
+        "126",
+        "130",
+        "140",
+        "142",
+        "144",
+        "146",
+        "148"
+      ],
+      "tooltip": "Additional Commands"
+    }
+  ]
+}
